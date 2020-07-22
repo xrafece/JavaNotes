@@ -3,15 +3,16 @@ package com.xrafece.dao.impl;
 import com.xrafece.dao.UserDao;
 
 /**
+ * 多例对象
  * @author Xrafece
  */
-public class UserDaoImpl implements UserDao {
+public class UserDaoImplPrototype implements UserDao {
 
     /**
      * 修改无参构造方法，用来验证 Spring 容器创建 bean 时，默认使用无参构造方法。
      */
-    public UserDaoImpl() {
-        System.out.println("UserDaoImpl Constructor Method is running...");
+    public UserDaoImplPrototype() {
+        System.out.println("UserDaoImplPrototype Constructor Method is running...");
     }
 
     /**
@@ -19,7 +20,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void saveUser() {
-        System.out.println("UserDaoImpl User is saving...");
+        System.out.println("UserDaoImplPrototype User is saving...");
     }
 
 }

@@ -4,6 +4,23 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
 ">
+	<!--Spring ioc 容器创建 bean 默认为单例对象 所以后面的 scope="singleton" 等同于不写-->
+	<bean id="userDaoSingleton" class="com.xrafece.dao.impl.UserDaoImplSingleton" scope="singleton"/>
+	<!--userDao 多例对象-->
+	<bean id="userDaoPrototype" class="com.xrafece.dao.impl.UserDaoImplPrototype" scope="prototype"/>
+	<!--使用 init 和 destroy 方法查看 bean 的生命周期-->
+	<bean id="userDaoLifeCycle" class="com.xrafece.dao.impl.UserDaoImplLifeCycle" init-method="init" destroy-method="destroy"/>
 
+	<!--使用默认无参构造方法创建 bean-->
+	<bean id="userDao" class="com.xrafece.dao.impl.UserDaoImpl"/>
+	<!--使用静态工厂实例化 bean ，标签的 class 属性指向静态工厂，通过 factory-method 属性指向工厂具体构建 bean 的方法-->
+	<bean id="userDaoStatic" class="com.xrafece.factory.StaticFactory" factory-method="getUserDaoStatic"/>
+	<!--使用实例工厂实例化 bean ，和默认创建 bean 时 class 属性一致，但是需要使用 factory-bean 属性指向实例工厂 bean-->
+	<bean id="userDaoDynamic" class="com.xrafece.dao.impl.UserDaoImplDynamic" factory-bean="dynamicFactory"/>
+	<!--实例工厂 bean-->
+	<bean id="dynamicFactory" class="com.xrafece.factory.DynamicFactory"/>
+
+
+	<!--所有验证测试方法都在 test 包中-->
 
 </beans>

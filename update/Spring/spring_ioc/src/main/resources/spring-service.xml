@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+">
+
+	<!--使用 set 方法进行依赖注入-->
+	<bean id="userService" class="com.xrafece.service.impl.UserServiceImpl">
+		<!--ref 属性表示引用类型，此处通过主配置文件的 import 标签链接引用自 dao 层的 userDao-->
+		<property name="userDao" ref="userDao"/>
+	</bean>
+
+</beans>

@@ -5,19 +5,67 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
 ">
 
-	<!--<bean id="userDao" class="com.xrafece.dao.impl.UserDaoImpl" init-method="init" destroy-method="destroy"/>-->
-	<!--<bean id="userDao" class="com.xrafece.factory.StaticFactory" factory-method="getUserDao"/>-->
+	<!--时间 bean，创建时调用Date的默然构造方法，即现在时间-->
+	<bean id="date" class="java.util.Date"/>
 
-	<!--<bean id="dynamicFactory" class="com.xrafece.factory.DynamicFactory"/>-->
-	<!--<bean id="userDao" factory-bean="dynamicFactory" factory-method="getUserDao"/>-->
-	<bean id="userDao" class="com.xrafece.dao.impl.UserDaoImpl"/>
-	<bean id="userService" class="com.xrafece.service.impl.UserServiceImpl">
-		<property name="userDao" ref="userDao"/>
+	<bean id="user02" class="com.xrafece.entry.User">
+		<property name="name" value="Nusplomerc"/>
+		<property name="birthday" ref="date"/>
+		<property name="favorites">
+			<array>
+				<value>01</value>
+				<value>02</value>
+			</array>
+		</property>
+		<property name="index">
+			<props>
+				<prop key="one">1</prop>
+				<prop key="two">2</prop>
+			</props>
+		</property>
+		<property name="properties">
+			<map>
+				<entry key="one" value="1"/>
+				<entry key="two" value="2"/>
+			</map>
+		</property>
 	</bean>
 
-	<import resource="spring-dao.xml"/>
-	<import resource="spring-dao.xml"/>
+	<!--构造方法依赖注入，在没有无参构造方法时必须采用-->
+	<bean id="user01" class="com.xrafece.entry.User">
+		<!--普通数据类型-->
+		<constructor-arg name="name" value="xrafece"/>
+		<!--引用数据类型-->
+		<constructor-arg name="birthday" ref="date"/>
+		<!--集合数据类型-->
+		<constructor-arg name="favorites">
+			<list>
+				<value>one</value>
+				<value>two</value>
+				<value>three</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg name="index">
+			<map>
+				<entry key="One" value="1"/>
+				<entry key="Two">
+					<value>2</value>
+				</entry>
+			</map>
+		</constructor-arg>
+		<!--List结构依赖注入时，list array set 标签等价-->
+		<!--Map结构依赖注入时，map props 标签等价-->
+		<constructor-arg name="properties">
+			<props>
+				<prop key="prop1">1</prop>
+				<prop key="prop2">2</prop>
+			</props>
+		</constructor-arg>
+	</bean>
 
-
+	<!--使用 import 标签导入另外两个 xml 配置文件-->
+	<!--<import resource="spring-dao.xml"/>-->
+	<!--<import resource="spring-service.xml"/>-->
+	<!--此文件作为主配置文件，导入其他层配置文件，使得配置结构清晰，并且得以验证 import 标签-->
 
 </beans>
