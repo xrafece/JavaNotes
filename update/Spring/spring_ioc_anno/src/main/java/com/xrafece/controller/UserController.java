@@ -14,5 +14,7 @@ public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
 
-
+    public void showAllUser() {
+        userServiceImpl.listAllUser();
+    }
 }

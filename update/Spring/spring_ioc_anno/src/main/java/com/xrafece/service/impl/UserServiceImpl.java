@@ -14,4 +14,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDaoImpl userDaoImpl;
+
+    @Override
+    public void listAllUser() {
+        userDaoImpl.listAllUser();
+    }
 }

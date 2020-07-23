@@ -8,4 +8,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class UserDaoImpl implements UserDao {
+    @Override
+    public void listAllUser() {
+        System.out.println("Analog output for all users.");
+    }
 }

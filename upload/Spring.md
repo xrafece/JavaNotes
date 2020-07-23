@@ -2,6 +2,19 @@
 
 Spring 内容偏向与复习，所以笔记较为简练。
 
+- [IOC](#ioc)
+  * [Bean](#bean)
+    + [xml 配置](#xml---)
+    + [Annotation (注解) 配置](#annotation--------)
+  * [DI (依赖注入)](#di-------)
+    + [xml 配置](#xml----1)
+      - [(有参)构造方法注入](#----------)
+      - [set方法注入](#set----)
+    + [Annotation (注解) 配置](#annotation---------1)
+  * [全注解开发](#-----)
+  * [测试](#--)
+- [AOP](#aop)
+
 ## IOC
 
 Spring 常用配置文件名称 `applicationContext.xml`
@@ -304,4 +317,193 @@ public class User {
 * `@Qualifier` 根据名称自动进行依赖注入
 
 * `@Resource` 根据名称和类型进行匹配，然后自动进行依赖注入
+
+### 全注解开发
+
+在使用上面 **bean** 配置的时候，需要在 `applicationContext.xml` 文件中添加以下代码
+
+```xml
+<!--开启注解组件扫描，配置扫描包基路径-->
+<context:component-scan base-package="com.xrafece"/>
+```
+
+而且如果需要配置第三方 bean 时，仍旧需要添加 `bean` 标签进行依赖注入，编码流程繁琐。
+
+```xml
+<!--激活属性占位符${...}，配置 properties 文件位置，分离配置耦合-->
+<context:property-placeholder location="classpath:jdbc.properties"/>
+
+<!--配置 c3p0 数据源（数据库连接池）-->
+<bean id="comboPooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+   <property name="driverClass" value="${jdbc.driver}"/>
+   <property name="jdbcUrl" value="${jdbc.url}"/>
+   <property name="user" value="${jdbc.username}"/>
+   <property name="password" value="${jdbc.password}"/>
+</bean>
+
+<!--配置 druid 数据源， 没有使用占位符分离配置-->
+<bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+   <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+   <property name="url" value="jdbc:mysql:///one2"/>
+   <property name="username" value="xxxx"/>
+   <property name="password" value="xxxxxx"/>
+</bean>
+<!--以上两个 bean 展示了实际开发中如何使用依赖注入给我们无法修改的第三方引用 jar 包中所需对象-->
+```
+
+`jdbc.properties` 配置文件
+
+```properties
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql:///one2
+jdbc.username=xxxx
+jdbc.password=xxxxxx
+```
+
+所以 **Spring** 推出了新的注解来实现全注解开发，也为时下流行的 **SpringBoot** 奠定基础。
+
+* `@Configuration` 指定当前类是 Spring 配置类，当创建容器时会从该类开始加载注解
+* `@ComponentScan` 指定 IOC 容器创建时扫描需要扫描的包
+* `@Bean` 指定方法返回值是一个 IOC 容器中的 bean ，唯一标识默认为方法名称，可指定名称
+* `@PropertySource` 激活该类使用属性占位符 `$(...}` 用于指定配置文件属性
+* `@Import` 导入其他 Java 配置类
+
+配置类 `SpringConfiguration.java`
+
+```java
+package com.xrafece.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+/**
+ * @author Xrafece
+ */
+//表示这是一个 Spring JavaConfig 类
+@Configuration
+//需要扫描注解的基本包路径，多个路径可以用数组表示或者使用 @ComponentScans 注解
+@ComponentScan("com.xrafece")
+//导入另外一个配置类
+@Import(DataSourceConfiguration.class)
+public class SpringConfiguration {
+
+}
+```
+
+配置类 `DataSourceConfiguration.java`
+
+```java
+package com.xrafece.config;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+
+import javax.sql.DataSource;
+import java.beans.PropertyVetoException;
+
+/**
+ * 数据源对象配置类
+ * @author Xrafece
+ */
+//激活属性占位符，并标注属性配置文件位置
+@PropertySource("classpath:jdbc.properties")
+public class DataSourceConfiguration {
+
+    @Value("${jdbc.driver}")
+    private String driver;
+    @Value("${jdbc.url}")
+    private String url;
+    @Value("${jdbc.username}")
+    private String username;
+    @Value("${jdbc.password}")
+    private String password;
+
+    // 使用 @Bean 注解，表示该方法返回值是一个要放入 ioc 容器中的 bean，属性值为 bean 的唯一标识
+    // 默认属性表示方法为 bean 的唯一标识
+    @Bean("comboPooledDataSource")
+    public DataSource getComboPooledDataSource() throws PropertyVetoException {
+        ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+        comboPooledDataSource.setDriverClass(driver);
+        comboPooledDataSource.setJdbcUrl(url);
+        comboPooledDataSource.setUser(username);
+        comboPooledDataSource.setPassword(password);
+        return comboPooledDataSource;
+    }
+
+    // 省略写法，容器中 bean 的名称为 druidDataSource
+    @Bean
+    public DataSource druidDataSource() {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName(driver);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        return dataSource;
+    }
+}
+```
+
+### 测试
+
+使用 `@RunWith(SpringJUnit4ClassRunner.class)` 注解标注测试类，并且使用 `@ContextConfiguration` 注解标注配置文件的位置（默认为 xml 文件，或者使用 classes 属性传递类文件），就可以在创建 IOC 容器以后进行 bean 测试，使用时只需要使用 `@Autowired` 注解自动装配就可以使用。
+
+测试类 `ApplicationTest.java`
+
+```java
+package com.xrafece;
+
+import com.xrafece.config.SpringConfiguration;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.sql.DataSource;
+import java.sql.SQLException;
+
+/**
+ * @author Xrafece
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+// @ContextConfiguration("classpath:applicationContext.xml")
+@ContextConfiguration(classes = SpringConfiguration.class)
+public class ApplicationTest {
+
+    @Qualifier("druidDataSource")
+    @Autowired
+    private DataSource druidDataSource;
+    
+    @Test
+    public void test() throws SQLException {
+        System.out.println(druidDataSource.getConnection());
+    }
+}
+```
+
+在测试类的注解中常用写法 `@RunWith(SpringRunner.class)` ，经过查看 `SpringRunner.java` 源码后会发现，这种写法更加简洁，但功能是一样的。 
+
+```java
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
+package org.springframework.test.context.junit4;
+
+import org.junit.runners.model.InitializationError;
+
+public final class SpringRunner extends SpringJUnit4ClassRunner {
+    public SpringRunner(Class<?> clazz) throws InitializationError {
+        super(clazz);
+    }
+}
+```
+
+## AOP
 

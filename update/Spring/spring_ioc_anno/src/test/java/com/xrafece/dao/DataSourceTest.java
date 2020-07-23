@@ -3,7 +3,6 @@ package com.xrafece.dao;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidPooledConnection;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import javafx.application.Application;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +25,7 @@ public class DataSourceTest {
 
     @Before
     public void initProperties() {
+        // 获取 resources 路径的 jdbc.properties 配置文件
         ResourceBundle jdbc = ResourceBundle.getBundle("jdbc");
         driver = jdbc.getString("jdbc.driver");
         url = jdbc.getString("jdbc.url");
@@ -60,6 +60,7 @@ public class DataSourceTest {
     @Test
     public void druidDatasourceTest() throws SQLException {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        // 在未指定名称的时候会根据类型获取 bean
         DruidDataSource dataSource = context.getBean(DruidDataSource.class);
         DruidPooledConnection connection = dataSource.getConnection();
         System.out.println(connection);
@@ -69,6 +70,8 @@ public class DataSourceTest {
     @Test
     public void C3P0DatasourceTest() throws SQLException {
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        // 在未指定名称的时候会根据类型获取 bean
+        // getBean 还可以只通过名称获取 bean，也可以通过类型和名称获取，对应着 @Autowired 注解和 @Qualified 注解的开发思想
         ComboPooledDataSource comboPooledDataSource = context.getBean(ComboPooledDataSource.class);
         Connection connection = comboPooledDataSource.getConnection();
         System.out.println(connection);
