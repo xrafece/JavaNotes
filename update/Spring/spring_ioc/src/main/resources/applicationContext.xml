@@ -8,7 +8,9 @@
 	<!--时间 bean，创建时调用Date的默然构造方法，即现在时间-->
 	<bean id="date" class="java.util.Date"/>
 
+	<!--set 方法注入依赖，比如要有 set 方法可以进行依赖注入-->
 	<bean id="user02" class="com.xrafece.entry.User">
+		<!--数据类型和构造方法依赖注入一致-->
 		<property name="name" value="Nusplomerc"/>
 		<property name="birthday" ref="date"/>
 		<property name="favorites">
@@ -64,8 +66,8 @@
 	</bean>
 
 	<!--使用 import 标签导入另外两个 xml 配置文件-->
-	<!--<import resource="spring-dao.xml"/>-->
-	<!--<import resource="spring-service.xml"/>-->
+	<import resource="spring-dao.xml"/>
+	<import resource="spring-service.xml"/>
 	<!--此文件作为主配置文件，导入其他层配置文件，使得配置结构清晰，并且得以验证 import 标签-->
 
 </beans>

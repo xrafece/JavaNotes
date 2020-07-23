@@ -12,7 +12,10 @@ public class ApplicationTest {
     @Test
     public void springDITest() {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-        User user = applicationContext.getBean(User.class);
-        System.out.println(user);
+        User user1 = applicationContext.getBean("user01", User.class);
+        User user2 = applicationContext.getBean("user02", User.class);
+        System.out.println("-------------------分割线-------------------");
+        System.out.println("user1: " + user1);
+        System.out.println("user2: " + user2);
     }
 }

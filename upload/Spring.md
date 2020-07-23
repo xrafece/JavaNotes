@@ -187,7 +187,7 @@ Spring 常用配置文件名称 `applicationContext.xml`
 
 * `type` 注入依赖的数据类型
 * `index` 注入依赖的索引位置，索引从 0 开始
-* `name` 注入依赖的的名称
+* `name` 注入依赖的名称
 * `value` 注入依赖的值（普通数据类型，指 String 和基本数据类型以及包装类）
 * `ref` 注入依赖的引用（引用数据类型注入）
 
@@ -259,18 +259,51 @@ public class User {
 
 在 `bean` 标签中使用 `property` 标签进行依赖注入。
 
-当 bean 中有**set方法**时，才可以是使用
+当 bean 中有 **set 方法**时，才可以使用 set 方法注入相应依赖项
 
-**标签属性**(`constructor-arg`)
+**标签属性**(`property`)
 
-* `name` 注入依赖的的名称
+* `name` 注入依赖的名称
 * `value` 注入依赖的值（普通数据类型，指 String 和基本数据类型以及包装类）
 * `ref` 注入依赖的引用（引用数据类型注入）
 
+配置文件 `applicationContext.xml`
+
+```xml
+<!--时间 bean，创建时调用Date的默然构造方法，即现在时间-->
+<bean id="date" class="java.util.Date"/>
+
+<!--set 方法注入依赖，比如要有 set 方法可以进行依赖注入-->
+<bean id="user02" class="com.xrafece.entry.User">
+    <!--数据类型和构造方法依赖注入一致-->
+    <property name="name" value="Nusplomerc"/>
+    <property name="birthday" ref="date"/>
+    <property name="favorites">
+        <array>
+            <value>01</value>
+            <value>02</value>
+        </array>
+    </property>
+    <property name="index">
+        <props>
+            <prop key="one">1</prop>
+            <prop key="two">2</prop>
+        </props>
+    </property>
+    <property name="properties">
+        <map>
+            <entry key="one" value="1"/>
+            <entry key="two" value="2"/>
+        </map>
+    </property>
+</bean>
+```
+
 #### Annotation (注解) 配置
 
-* `@Autowired` 根据类型进行依赖注入
+* `@Autowired` 根据类型自动进行依赖注入
 
-* `@Qualifier("druidDataSource")` 在 web 层用于实例化 bean
+* `@Qualifier` 根据名称自动进行依赖注入
 
-* `@Resource` 在 service 层用于实例化 bean
+* `@Resource` 根据名称和类型进行匹配，然后自动进行依赖注入
+
