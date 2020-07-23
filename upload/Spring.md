@@ -117,7 +117,7 @@ Spring 常用配置文件名称 `applicationContext.xml`
    ```xml
    <!--使用实例工厂实例化 bean ，和默认创建 bean 时 class 属性一致，但是需要使用 factory-bean 属性指向实例工厂 bean-->
    <bean id="userDaoDynamic" class="com.xrafece.dao.impl.UserDaoImplDynamic" factory-bean="dynamicFactory"/>
-<!--实例工厂 bean-->
+   <!--实例工厂 bean-->
    <bean id="dynamicFactory" class="com.xrafece.factory.DynamicFactory"/>
    ```
    
@@ -148,8 +148,6 @@ Spring 常用配置文件名称 `applicationContext.xml`
    }
    ```
    
-   
-
 #### Annotation (注解) 配置
 
 * `@Component` 作用相当于上面的 `bean` 标签，用于实例化 bean
