@@ -507,3 +507,12 @@ public final class SpringRunner extends SpringJUnit4ClassRunner {
 
 ## AOP
 
+AOP 就是面向切面编程，也是 Spring 的核心之一，使用 Spring AOP 之前需要先了解以下概念。
+
+* **Target** (目标对象)
+* **Proxy** (代理)
+* **Joinpoint** (连接点)
+* **Pointcut** (切入点)
+* **Advice** (通知/增强)
+* **Aspect** (切面)
+* **Weaving** (织入) 

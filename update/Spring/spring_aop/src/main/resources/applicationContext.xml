@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+
+	<!--使用注解开发的时候需要开启自动代理-->
+	<!--<aop:aspectj-autoproxy/>-->
+
+	<!--被增强的目标对象-->
+	<bean id="userService" class="com.xrafece.service.impl.UserServiceImpl"/>
+
+	<bean id="accountService" class="com.xrafece.service.AccountService"/>
+
+	<!--增强方法的所在类对象-->
+	<bean id="printLog" class="com.xrafece.log.PrintLog"/>
+
+	<bean id="timeLog" class="com.xrafece.log.TimeLog"/>
+
+	<!--增强器-->
+	<!--<bean id="logAdvisor" class="com.xrafece.log.LogAdvisor"/>-->
+
+	<!--AOP 配置-->
+	<aop:config>
+		<!--切点表达式，表示所有接口实现类的方法-->
+		<aop:pointcut id="serviceImpl" expression="execution(* com.xrafece.service.impl.*.*(..))"/>
+		<!--切点表达式，表示所有 service 包以及子包中类的方法-->
+		<aop:pointcut id="service" expression="execution(* com.xrafece.service..*.*(..))"/>
+		<!--打印日志切面-->
+		<aop:aspect id="printLog" ref="printLog">
+			<!--前置通知，没有抽取切点表达式-->
+			<!--<aop:before method="printLogBeforeMethod" pointcut="execution(* com.xrafece.service.impl.*.*(..))"/>-->
+			<!--前置通知，在方法开始前打印日志-->
+			<aop:before method="printLogBeforeMethod" pointcut-ref="service"/>
+			<!--后置通知，在方法正常执行以后打印日志-->
+			<aop:after-returning method="printLogAfterMethod" pointcut-ref="service"/>
+			<!--异常通知，在方法抛出异常以后打印日志-->
+			<aop:after-throwing method="printLogWhenThrowingException" pointcut-ref="service"/>
+			<!--最终通知，不管什么情况，都会打印的日志结尾-->
+			<aop:after method="printCopyRightAfterAll" pointcut-ref="service"/>
+		</aop:aspect>
+		<!--时间日志切面-->
+		<aop:aspect id="timeLog" ref="timeLog">
+			<!--<aop:before method="printRunTime" pointcut="execution(* com.xrafece.service.impl.*.*(..))"/>-->
+			<!--环绕通知，运行增强从方法开始直到结束都执行，记录方法运行时间-->
+			<!--由于模拟操作过于简单，所以故意添加一秒运行延迟，以方便展示运行时间-->
+			<aop:around method="printRunTime" pointcut-ref="serviceImpl"/>
+		</aop:aspect>
+	</aop:config>
+
+</beans>
