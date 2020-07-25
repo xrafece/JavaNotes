@@ -14,6 +14,7 @@
 		<module>spring_ioc</module>
 		<module>spring_ioc_anno</module>
 		<module>spring_aop</module>
+		<module>spring_web</module>
 	</modules>
 	<properties>
 		<java.version>1.8</java.version>
@@ -51,6 +52,13 @@
 			<artifactId>spring-aspects</artifactId>
 			<version>5.2.7.RELEASE</version>
 		</dependency>
+		<!--Spring WebMvc-->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>5.2.7.RELEASE</version>
+		</dependency>
 		<!--Lombok-->
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
@@ -80,19 +88,6 @@
 			<artifactId>c3p0</artifactId>
 			<version>0.9.5.5</version>
 		</dependency>
-		<!--&lt;!&ndash;Aspectj&ndash;&gt;-->
-		<!--&lt;!&ndash; https://mvnrepository.com/artifact/org.aspectj/aspectjweaver &ndash;&gt;-->
-		<!--<dependency>-->
-		<!--	<groupId>org.aspectj</groupId>-->
-		<!--	<artifactId>aspectjweaver</artifactId>-->
-		<!--	<version>1.9.6</version>-->
-		<!--</dependency>-->
-		<!--&lt;!&ndash; https://mvnrepository.com/artifact/org.aspectj/aspectjrt &ndash;&gt;-->
-		<!--<dependency>-->
-		<!--	<groupId>org.aspectj</groupId>-->
-		<!--	<artifactId>aspectjrt</artifactId>-->
-		<!--	<version>1.9.6</version>-->
-		<!--</dependency>-->
 
 	</dependencies>
 </project>

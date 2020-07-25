@@ -10,6 +10,20 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>spring_aop</artifactId>
-
+	<dependencies>
+		<!--Aspectj-->
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+	</dependencies>
 
 </project>

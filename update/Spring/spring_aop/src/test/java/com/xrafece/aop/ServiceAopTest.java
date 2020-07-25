@@ -25,7 +25,8 @@ public class ServiceAopTest {
     public void testListAllUser() throws InterruptedException {
         userService.listAllUser();
     }
-  @Test
+
+    @Test
     public void testListAllAccount() throws InterruptedException {
         accountService.listAllAccount();
     }

@@ -54,17 +54,38 @@ Spring 常用配置文件名称 `applicationContext.xml`
 </beans>
 ```
 
+* Aop Schema
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop 
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+">
+
+    <!-- bean definitions here -->
+
+</beans>
+```
+
 ### Bean
 
-默认使用类的**无参构造方法**，没有无参构造方法会创建失败。
+默认使用类的**无参构造方法**，没有无参构造方法需要进行依赖注入，否则会创建失败。
 
 #### xml 配置
+
+使用 `bean` 标签进行配置容器组件
 
 ```xml
 <bean id="userDao" class="com.xrafece.dao.impl.UserDaoImpl"/>
 ```
 
-**基本属性**
+**标签属性**(`bean`)
 
 * `id` 唯一标识
 
@@ -509,10 +530,28 @@ public final class SpringRunner extends SpringJUnit4ClassRunner {
 
 AOP 就是面向切面编程，也是 Spring 的核心之一，使用 Spring AOP 之前需要先了解以下概念。
 
-* **Target** (目标对象)
-* **Proxy** (代理)
-* **Joinpoint** (连接点)
-* **Pointcut** (切入点)
-* **Advice** (通知/增强)
-* **Aspect** (切面)
-* **Weaving** (织入) 
+* **Target** (目标对象) ：代理的目标对象
+* **Proxy** (代理) ：目标类被增强以后产生的代理对象
+* **Joinpoint** (连接点) ：所有可以被增强的点都叫做连接点（Spring 只支持方法类型的连接点，所以这里指的是所有可被增强的方法）
+* **Pointcut** (切入点) ：我们需要增强处理的连接点
+* **Advice** (通知/增强) ：拦截到连接点以后要做的事情就是通知，即增强处理的具体做法
+* **Aspect** (切面) ：切入点和通知（增强）的结合
+* **Advisor** (增强器/通知器) ：用来筛选那些连接点需要增强（切入点）
+* **Weaving** (织入)  ：把增强应用到目标对象来创建代理对象的过程叫做织入。Aspectj 采用编译期织入和装载期织入，而 Spring 采用动态代理织入
+
+### xml 配置
+
+使用 `aop` 标签进行配置
+
+* `<aop:config>` 开始配置 AOP
+* `<aop:pointcut>` 配置切点表达式
+* `<aop:aspect>` 配置切面
+  * `<aop:before` 前置通知
+  * `<aop:after-returning` 后置通知
+  * `<aop:after-throwing` 异常通知
+  * `<aop:after` 最终通知
+  * `<aop:around` 环绕通知
+* `<aop:advisor` 配置增强器
+
+
+
