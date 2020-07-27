@@ -14,6 +14,9 @@ Spring 内容偏向与复习，所以笔记较为简练。
   * [全注解开发](#全注解开发)
   * [测试](#测试)
 - [AOP](#aop)
+  - [xml 配置](#xml-配置-2)
+  - [Annotation (注解) 配置](#annotation-注解-配置-2)
+  - [全注解开发](#全注解开发-1)
 
 ## IOC
 
@@ -527,6 +530,14 @@ public final class SpringRunner extends SpringJUnit4ClassRunner {
     }
 }
 ```
+
+- [IOC](#ioc)
+- [AOP](#aop)
+  - [xml 配置](#xml-配置-2)
+  - [Annotation (注解) 配置](#annotation-注解-配置-2)
+  - [全注解开发](#全注解开发-1)
+
+------
 
 ## AOP
 
