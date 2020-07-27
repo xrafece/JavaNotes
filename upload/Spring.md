@@ -200,6 +200,8 @@ Spring 常用配置文件名称 `applicationContext.xml`
 
 * `@PreDestroy` 相当于上面 `destroy-method` 属性，标注该方法是 bean 的销毁方法
 
+使用注解以后需要在 `applicationContext.xml` 配置注解扫描包路径 `<context:component-scan/>`
+
 ### DI (依赖注入)
 
 **依赖注入的数据类型**
@@ -334,14 +336,14 @@ public class User {
 #### Annotation (注解) 配置
 
 * `@Autowired` 根据类型自动进行依赖注入
-
 * `@Qualifier` 根据名称自动进行依赖注入
-
 * `@Resource` 根据名称和类型进行匹配，然后自动进行依赖注入
+
+使用注解以后需要在 `applicationContext.xml` 配置注解扫描包路径 `<context:component-scan/>`
 
 ### 全注解开发
 
-在使用上面 **bean** 配置的时候，需要在 `applicationContext.xml` 文件中添加以下代码
+在使用上面 **bean** 注解配置的时候，需要在 `applicationContext.xml` 文件中添加以下代码
 
 ```xml
 <!--开启注解组件扫描，配置扫描包基路径-->
@@ -412,7 +414,7 @@ public class SpringConfiguration {
 }
 ```
 
-配置类 `DataSourceConfiguration.java`
+数据源配置类 `DataSourceConfiguration.java`
 
 ```java
 package com.xrafece.config;
@@ -553,5 +555,137 @@ AOP 就是面向切面编程，也是 Spring 的核心之一，使用 Spring AOP
   * `<aop:around` 环绕通知
 * `<aop:advisor` 配置增强器
 
+标签属性(`aop`)
 
+* `id` 唯一标识，切点表达式，切面和增强器有这个属性
+* `ref` 引用值，可以引用容器中任意一个 bean ，切面和增强器的属性，用来配置某个 bean 是一个切面或者增强器
+* `pointcut` 切点表达式，这是每个通知类型的属性，用来配置通知增强的切入点
+* `pointcut-ref` 切点表达式引用，作用和切点表达式属性一致，使用此属性需要使用 `<aop:pointcut>` 标签将切点表达式进行提取，然后通过切点表达式的唯一标识进行引用
+* `expression` 切点表达式，切点表达式标签特有属性，用来配置提取出来的切点表达式
+
+**切点表达式语法**
+
+> **execution([修饰符] 返回值类型 包名.类名.方法名(参数))**
+
+1. 修饰符可以省略
+2. 返回值类型、包名、类名、方法名可以使用 `*` 表示任意
+3. 包名与类名之间的一个点 `.` 代表当前包下的类，两个点 `..` 表示当前包及其子包下的类
+4. 参数列表可以使用两个点 `..` 表示任意个数、任意类型的参数列表
+
+例如
+
+```java
+// 表示 com.xrafece.service.impl.UserServiceImpl 类中无返回值的 listAllUser() 方法
+// 单一指定到某一个方法
+execution(void com.xrafece.service.impl.UserServiceImpl.listAllUser())
+
+// 表示 com.xrafece.service.impl.UserServiceImpl 类中所有无返回值方法
+// 匹配一部分方法
+execution(void com.xrafece.service.impl.UserServiceImpl.*(..))
+
+// 表示 com.xrafece.service.impl 包下所有类中所有方法
+execution(* com.xrafece.service.impl.*.*(..))
+    
+// 表示 com.xrafece.service 包及其子包下所有类中所有方法
+execution(* com.xrafece.service..*.*(..))
+
+// 表示所有类中所有方法
+execution(* *..*.*(..))
+```
+
+注：配置切面和增强器之前要先把要用到的切面类、增强器类、被增强的类都放入 IOC 容器，便于容器管理。
+
+### Annotation (注解) 配置
+
+* `@Aspect` 标注该类是一个切面类
+
+  * `@Before` 标注该方法是一个前置通知，属性值为切点表达式
+  * `@AfterReturning` 标注该方法是一个后置通知，属性值为切点表达式
+  * `@AfterThrowing` 标注该方法是一个前置通知，属性值为切点表达式
+  * ` @After` 标注该方法是一个前置通知，属性值为切点表达式
+  * `@Around` 标注该方法是一个前置通知，属性值为切点表达式
+
+* ` @Pointcut` 标注到方法，属性值是切面表达式，可以使用被标注方法的全限定名代替以上五种通知类型的切点表达式
+
+  在同一个类中可以直接引用方法代替切点表达式
+
+  ```java
+  @After("service()")
+  public void printCopyRightAfterAll() {
+      System.out.println("@@@@@@@@@@@@@@@@@@@@@.Xrafece Log Method, Thanks for using.@@@@@@@@@@@@@@@@@@@@@");
+  }
+  
+  @Pointcut("execution(* com.xrafece.service..*.*(..))")
+  public void service() {
+  }
+  
+  @Pointcut("execution(* com.xrafece.service.impl.*.*(..))")
+  public void serviceImpl() {
+  }
+  ```
+
+  而另一个类如果要使用这个类中另一个切点表达式，需要使用全限定名
+
+  另一个类
+
+  ```java
+  @Around("com.xrafece.log.PrintLog.serviceImpl()")
+  public Object printRunTime(ProceedingJoinPoint proceedingJoinPoint) {
+  // ...
+  }
+  ```
+
+  （具体细节可以参考另一个文件夹中源码 `spring_aop` ）
+
+  使用注解以后需要在 `applicationContext.xml` 激活 AOP 自动代理 `<aop:aspectj-autoproxy/>`
+
+### 全注解开发
+
+注解配置 AOP 时 `applicationContext.xml` 
+
+```xml
+<!--使用注解开发的时候需要开启自动代理-->
+<aop:aspectj-autoproxy/>
+<!--开启注解扫描-->
+<context:component-scan base-package="com.xrafece"/>
+```
+
+基于全注解开发思想，只需要在 JavaConfig 类中添加 `@EnableAspectJAutoProxy` 注解即可开启自动代理
+
+Spring 配置类 `SpringConfig.java`
+
+```java
+package com.xrafece.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+/**
+ * @author Xrafece
+ */
+
+@Configuration
+@ComponentScan("com.xrafece")
+@Import(AopConfig.class)
+public class SpringConfig {
+}
+```
+
+AOP 配置类 `AopConfig.java`
+
+```java
+package com.xrafece.config;
+
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
+/**
+ * @author Xrafece
+ */
+
+// 开始自动自动代理
+@EnableAspectJAutoProxy
+public class AopConfig {
+}
+```
 
