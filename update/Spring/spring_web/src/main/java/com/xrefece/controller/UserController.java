@@ -15,8 +15,9 @@ public class UserController {
     private UserServiceImpl userServiceImpl;
 
     @RequestMapping("a")
-    public void helloWorld() {
+    public String helloWorld() {
         System.out.println("sss");
         userServiceImpl.listAllUser();
+        return "hello";
     }
 }
