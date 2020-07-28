@@ -34,7 +34,7 @@
 
 ## Git
 
-![img](img\git.png)
+![img](img/git.png)
 
 [你好]: https://www.w3cschool.cn/git/git-cheat-sheet.html	"你好"
 
