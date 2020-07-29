@@ -36,7 +36,9 @@
 
 ![img](img/git.png)
 
-[你好]: https://www.w3cschool.cn/git/git-cheat-sheet.html	"你好"
+## 系统状态
+
+### ifconfig
 
 持续更新中...
 
