@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @ComponentScan("com.xrafece")
-@Import({DataSourceConfig.class, WebConfig.class})
+@Import(DataSourceConfig.class)
 public class SpringConfig {
 }
