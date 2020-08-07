@@ -26,6 +26,25 @@
 5. 缩进长度没有限制，只要想用层级元素缩进对齐即可
 6. 使用#进行注释
 
-数据结构
+#### 数据结构
+
+```yml
+yaml:
+  str: "加上双引号以后字符会被转义\\"
+  special-str: '单引号或者不加引号，字符不会被转义\\'
+  num: 1234
+  double-num: 5115.2
+  date: 2020/02/02 20:20:20
+  num-list: 1, 3, 5
+  map: {String: Strin, ss: ssteri, dwdwa: sin}
+  users:
+    - id: 552
+    - name: test1
+      id: 1521
+    - name: test2
+      id: 234`
+```
+
+
 
 相比之下 YAML 文件层级表示更加清晰，但是可读性差，Prperties 文件可读性比较好
