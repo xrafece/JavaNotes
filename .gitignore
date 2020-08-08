@@ -4,6 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+### JavaWeb project output package 
 out/
 
 ### IntelliJ IDEA ###
