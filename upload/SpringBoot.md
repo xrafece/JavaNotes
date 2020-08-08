@@ -1,4 +1,24 @@
+<!-- TOC -->
+
+- [SpringBoot](#springboot)
+  - [外置化配置](#外置化配置)
+    - [配置文件](#配置文件)
+      - [properties](#properties)
+        - [语法规则](#语法规则)
+        - [数据形式](#数据形式)
+      - [YAML](#yaml)
+        - [语法规则](#语法规则-1)
+        - [数据形式](#数据形式-1)
+
+<!-- /TOC -->
+
+
+
+<a id="toc_anchor" name="#1-SpringBoot"></a>
+
 # SpringBoot
+
+<a id="toc_anchor" name="#11-外置化配置"></a>
 
 ## 外置化配置
 
@@ -31,9 +51,15 @@
 
 **列表顺序优先级由高到低，并且 properties 配置文件的优先级高于 yaml 文件**
 
+<a id="toc_anchor" name="#111-配置文件"></a>
+
 ### 配置文件
 
+<a id="toc_anchor" name="#1111-properties"></a>
+
 #### properties
+
+<a id="toc_anchor" name="#11111-语法规则"></a>
 
 ##### 语法规则
 
@@ -43,6 +69,8 @@
 4. 属性名和属性值之间的空格以及行首的空白和空行都会被忽略
 5. 属性值以 `\` 反斜杠字符结尾表示属性值可以跨越多行
 6. 可以使用转义字符，例如 `\n` 、 `\t`
+
+<a id="toc_anchor" name="#11112-数据形式"></a>
 
 ##### 数据形式
 
@@ -67,7 +95,11 @@ tab : \u0009
 
 在上面的示例中，`website` 将是一个键，其对应的值将是`http://en.wikipedia.org/`。虽然数字符号（＃）和感叹号（！）将文本标记为注释，但是当它是属性的一部分时无效。因此，键 `message` 对应的值为 ``Welcome to Wikipedia!`` 而不是 `Welcome to Wikipedia`。另请注意，`Wikipedia!` 前面的所有空白被完全排除。
 
+<a id="toc_anchor" name="#1112-YAML"></a>
+
 #### YAML
+
+<a id="toc_anchor" name="#11121-语法规则"></a>
 
 ##### 语法规则
 
@@ -78,6 +110,8 @@ tab : \u0009
 5. 缩进长度没有限制，只要想用层级元素缩进对齐即可
 6. 使用 # 进行注释
 7. 字符串使用 `“ ”` 双引号，字符串中不会转义特殊字符，单引号或者不使用引号，特殊字符会被转义
+
+<a id="toc_anchor" name="#11122-数据形式"></a>
 
 ##### 数据形式
 
