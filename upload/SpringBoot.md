@@ -37,16 +37,41 @@
 
 ##### 语法规则
 
-1. 属性列表中每个键及其对应值是一个字符串。通常，每条属性展现为单行形式
-2. 
+1. 属性列表中每个键及其对应值是一个字符串。通常，每行存储一个属性值
+2. 属性值字符串使用单引号和双引号都会被视为字符串一部分
+3. 注释使用 # 或者 ！
+4. 属性名和属性值之间的空格以及行首的空白和空行都会被忽略
+5. 属性值以 `\` 反斜杠字符结尾表示属性值可以跨越多行
+6. 可以使用转义字符，例如 `\n` 、 `\t`
 
+##### 数据形式
 
+```properties
+# You are reading the ".properties" entry.
+! The exclamation mark can also mark text as comments.
+# The key and element characters #, !, =, and : are written with
+# a preceding backslash to ensure that they are properly loaded.
+website = http\://en.wikipedia.org/
+language = English
+# The backslash below tells the application to continue reading
+# the value onto the next line.
+message = Welcome to \
+          Wikipedia!
+# Add spaces to the key
+key\ with\ spaces = This is the value that could be looked up with the key "key with spaces".
+# Unicode
+tab : \u0009
+```
+
+> In the example above, `website` would be a key, and its corresponding value would be`http://en.wikipedia.org/`. While the number sign (#) and the exclamation mark (!) marks text as comments, it has no effect when it is part of a property. Thus, the key`message` has the value `Welcome to Wikipedia!` and not `Welcome to Wikipedia`. Note also that all of the whitespace in front of `Wikipedia!` is excluded completely.
+
+在上面的示例中，`website` 将是一个键，其对应的值将是`http://en.wikipedia.org/`。虽然数字符号（＃）和感叹号（！）将文本标记为注释，但是当它是属性的一部分时无效。因此，键 `message` 对应的值为 ``Welcome to Wikipedia!`` 而不是 `Welcome to Wikipedia`。另请注意，`Wikipedia!` 前面的所有空白被完全排除。
 
 #### YAML
 
 ##### 语法规则
 
-1. 采用键值对形式，**冒号后面有一个空格**
+1. 采用键：值形式，**冒号后面有一个空格**
 2. 大小写敏感
 3. 使用缩进表示层级关系
 4. 不允许使用 TAB 键缩进，只允许使用空格
@@ -73,6 +98,5 @@ yaml:
       id: 234
 ```
 
-
-
 相比之下 YAML 文件层级表示更加清晰，但是可读性差，properties 文件可读性比较好
+
