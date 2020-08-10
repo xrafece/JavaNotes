@@ -10,7 +10,7 @@ import java.util.*;
  * @author Xrafece
  */
 @Data
-@Component
+// @Component
 @ConfigurationProperties("yaml")
 public class YamlEntry {
     private String str;
