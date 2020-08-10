@@ -1,24 +1,4 @@
-<!-- TOC -->
-
-- [SpringBoot](#springboot)
-  - [外置化配置](#外置化配置)
-    - [配置文件](#配置文件)
-      - [properties](#properties)
-        - [语法规则](#语法规则)
-        - [数据形式](#数据形式)
-      - [YAML](#yaml)
-        - [语法规则](#语法规则-1)
-        - [数据形式](#数据形式-1)
-
-<!-- /TOC -->
-
-
-
-<a id="toc_anchor" name="#1-SpringBoot"></a>
-
 # SpringBoot
-
-<a id="toc_anchor" name="#11-外置化配置"></a>
 
 ## 外置化配置
 
@@ -51,15 +31,9 @@
 
 **列表顺序优先级由高到低，并且 properties 配置文件的优先级高于 yaml 文件**
 
-<a id="toc_anchor" name="#111-配置文件"></a>
-
 ### 配置文件
 
-<a id="toc_anchor" name="#1111-properties"></a>
-
 #### properties
-
-<a id="toc_anchor" name="#11111-语法规则"></a>
 
 ##### 语法规则
 
@@ -69,8 +43,6 @@
 4. 属性名和属性值之间的空格以及行首的空白和空行都会被忽略
 5. 属性值以 `\` 反斜杠字符结尾表示属性值可以跨越多行
 6. 可以使用转义字符，例如 `\n` 、 `\t`
-
-<a id="toc_anchor" name="#11112-数据形式"></a>
 
 ##### 数据形式
 
@@ -95,11 +67,7 @@ tab : \u0009
 
 在上面的示例中，`website` 将是一个键，其对应的值将是`http://en.wikipedia.org/`。虽然数字符号（＃）和感叹号（！）将文本标记为注释，但是当它是属性的一部分时无效。因此，键 `message` 对应的值为 ``Welcome to Wikipedia!`` 而不是 `Welcome to Wikipedia`。另请注意，`Wikipedia!` 前面的所有空白被完全排除。
 
-<a id="toc_anchor" name="#1112-YAML"></a>
-
 #### YAML
-
-<a id="toc_anchor" name="#11121-语法规则"></a>
 
 ##### 语法规则
 
@@ -110,8 +78,6 @@ tab : \u0009
 5. 缩进长度没有限制，只要想用层级元素缩进对齐即可
 6. 使用 # 进行注释
 7. 字符串使用 `“ ”` 双引号，字符串中不会转义特殊字符，单引号或者不使用引号，特殊字符会被转义
-
-<a id="toc_anchor" name="#11122-数据形式"></a>
 
 ##### 数据形式
 
@@ -133,4 +99,149 @@ yaml:
 ```
 
 相比之下 YAML 文件层级表示更加清晰，但是可读性差，properties 文件可读性比较好
+
+### 配置注入
+
+首先添加依赖，用以加载 SpringBoot 元数据
+
+```xml
+<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-configuration-processor</artifactId>
+   <optional>true</optional>
+</dependency>
+```
+
+#### Set 和 Get 方法绑定
+
+在对应配置文件属性类添加 `@Component` 注解用以标注该类是 IOC 组件，然后用 `@ConfigurationProperties` 注解设定前缀属性，用以绑定配置文件中属性前缀。配置注入会依赖类的 Set 和 Get 方法。
+
+例如，对于以上 yaml 属性，对应类 `YamlEntry.java` :
+
+```java
+package com.xrafece.entry;
+
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+
+/**
+ * @author Xrafece
+ */
+@Data
+@Component
+@ConfigurationProperties("yaml")
+public class YamlEntry {
+    private String str;
+    private String specialStr;
+    private Integer num;
+    private Double doubleNum;
+    private Date date;
+    private List<Integer> numList;
+    private Map<String, String> map;
+    private Set<User> users;
+}
+```
+
+> idea 运行时，需要 build class 才可以通过依赖加载元数据，从而出现代码提醒和补全
+
+以上方式必须要添加  `@Component` 注解。但一般在配置类使用此配置属性类时，此类作用特殊，不需要将此类标记为组件。此时，只需要在配置类添加 `@EnableConfigurationProperties` 注解引入配置属性类即可。
+
+```java
+package com.xrafece.config;
+
+import com.xrafece.entry.YamlEntry;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * @author Xrafece
+ */
+@Configuration
+@EnableConfigurationProperties(YamlEntry.class)
+public class YamlConfig {
+}
+```
+
+#### 构造方法绑定
+
+在对应配置文件属性类添加 `@ConfigurationProperties` 注解设定前缀属性，并且使用 `@ConstructorBinding` 注解用以标注构造方法绑定。绑定以后配置属性会使用构造方法进行注入，此时类可以没有 Set 和 Get 方法。
+
+**注：**
+
+1. **可以在类上使用 `@ConstructorBinding` 注解，此时类必须有且仅有一个有参构造方法**
+
+2. **当有多个有参构造方法，需要在某个构造方法上使用注解，指定绑定唯一的构造方法**
+
+   > If you have more than one constructor for your class you can also use `@ConstructorBinding` directly on the constructor that should be bound.
+
+3. **当使用构造方法绑定时，必须使用 `@EnableConfigurationProperties` 或者配置属性扫描，而不能使用 `@Component` 、 `@Bean` 、 `@Import`等注解标注 bean** 
+
+   >  To use constructor binding the class must be enabled using `@EnableConfigurationProperties` or configuration property scanning. You cannot use constructor binding with beans that are created by the regular Spring mechanisms (e.g. `@Component` beans, beans created via `@Bean` methods or beans loaded using `@Import`)
+
+例如，配置文件 `application.properties`
+
+```properties
+properties.name=http://en.wikipedia.org/\
+#\1212\24121
+# "\" 用来表示当前属性值还未结束，可以换行，也可以不换行，他都会继续读取为当前属性的值
+properties.file=D:one,\
+  G:\\markdown\\Upload,\
+  \\Home
+properties.port=33051
+```
+
+对应配置属性类 `PropertiesEntry.java`
+
+```java
+package com.xrafece.entry;
+
+import lombok.*;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+/**
+ * @author Xrafece
+ */
+@Data
+@ConfigurationProperties("properties")
+@ConstructorBinding
+public class PropertiesEntry {
+    private String name;
+    private Integer port;
+    private List<String> file;
+
+    public PropertiesEntry(String name, Integer port, List<String> file) {
+        System.out.println("ConstructorBinging annotation run this constructor method by default.");
+        this.name = name;
+        this.port = port;
+        this.file = file;
+    }
+}
+```
+
+配置类 `PropertiesConfig,java`
+
+```java
+package com.xrafece.config;
+
+import com.xrafece.entry.PropertiesEntry;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * @author Xrafece
+ */
+@Configuration
+@EnableConfigurationProperties(PropertiesEntry.class)
+public class PropertiesConfig {
+}
+```
+
+
 
