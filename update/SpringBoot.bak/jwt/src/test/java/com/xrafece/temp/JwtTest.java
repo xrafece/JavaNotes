@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.Verification;
+import com.xrafece.util.JWTUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Calendar;
@@ -29,11 +30,14 @@ public class JwtTest {
 
     @Test
     void test() {
-        Verification require = JWT.require(Algorithm.HMAC256("SNIXSINIISINNJ"));
-        JWTVerifier build = require.build();
-        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4cmFmZWNlIiwibmFtZSI6IkpvaG4gRG9lIiwiZXhwIjoxNTk3MTQ0Mjk1fQ.2wB5kTzyIaIqNZgjKn0RHBoT9GUUmT6pzX8W5sPPCvU";
+        Verification require = JWT.require(JWTUtils.algorithm);
+        JWTVerifier build = require.withIssuer("Xrafece").build();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user", "sXrec");
+        map.put("name", "John Doe");
+        String token = JWTUtils.getToken(map);
         DecodedJWT verify = build.verify(token);
-        System.out.println(verify.getClaim("name").asString());
+        System.out.println(verify.getClaim("user").asString());
         System.out.println(verify.getSignature());
         System.out.println(verify.getExpiresAt());
     }
