@@ -1,4 +1,4 @@
 # Extra
 
-![jwt-logo](img/jwt-logo.png)
-![logo-asset](img/jwt-logo.svg)
+<img style="display: block; margin: 0 auto;" src="img/jwt-logo.svg" alt="" />
+
