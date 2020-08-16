@@ -1,6 +1,6 @@
 # Extra
 
-## JWT[![icom](img/badge.svg)](https://jwt.io)
+## JWT <a href="https://jwt.io" target="_blank"><img src="img/badge.svg" align="right"/></a>
 
 <p align="center">
 	<a>
