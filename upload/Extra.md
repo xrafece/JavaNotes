@@ -1,5 +1,7 @@
 # Extra
 
+* [JWT](#json-web-token-)
+
 ## Json Web Token <a href="https://jwt.io" target="_blank"><img src="img/badge.svg" align="right"/></a>
 
 <p align="center">
