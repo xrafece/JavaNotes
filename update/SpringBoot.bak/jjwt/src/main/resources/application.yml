@@ -1,1 +1,11 @@
 # Spring
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql:///test?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
+# Mybatis
+mybatis:
+  mapper-locations: classpath:com/xrafece/mapper/*.xml
+  type-aliases-package: com.xrafece.entity
