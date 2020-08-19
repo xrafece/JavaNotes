@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,19 +45,12 @@ public class UserController {
     }
 
     @RequestMapping("test")
-    public Map testToken(String token) {
+    public Map testToken(HttpServletRequest httpServletRequest) {
         HashMap<String, Object> map = new HashMap<>();
+        String token = httpServletRequest.getHeader("token");
         log.info("token: [{}]", token);
-        System.out.println(token);
-        try {
-            JJWTUtils.verifyToken(token);
-            map.put("state", true);
-            map.put("msg", "token 合法");
-        } catch (Exception e) {
-            e.printStackTrace();
-            map.put("state", false);
-            map.put("msg", e.getClass());
-        }
+        map.put("state", true);
+        map.put("msg", "token 合法");
         return map;
     }
 }

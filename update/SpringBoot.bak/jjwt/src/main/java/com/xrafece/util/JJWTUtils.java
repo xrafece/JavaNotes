@@ -76,22 +76,10 @@ public class JJWTUtils {
     }
 
     public static void verifyToken(String token) {
-        // try {
             Jwts.parserBuilder()
                     .setSigningKey(SECRET_KEY)
                     .build()
                     .parseClaimsJws(token);
-        // } catch (ExpiredJwtException e) {
-        //     e.printStackTrace();
-        // } catch (UnsupportedJwtException e) {
-        //     e.printStackTrace();
-        // } catch (MalformedJwtException e) {
-        //     e.printStackTrace();
-        // } catch (SignatureException e) {
-        //     e.printStackTrace();
-        // } catch (IllegalArgumentException e) {
-        //     e.printStackTrace();
-        // }
     }
 
     public static Jws<Claims> getTokenInfo(String token) {
