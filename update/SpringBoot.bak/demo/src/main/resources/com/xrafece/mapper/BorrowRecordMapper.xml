@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xrafece.mapper.BorrowRecordMapper">
+
+	<select id="listAllRecord" resultType="BorrowRecord">
+		select * from borrow_record;
+	</select>
+
+	<select id="listRecordByDay" parameterType="date" resultType="BorrowRecord">
+		select * from borrow_record where date_format(start_time , '%Y%m%d') = date_format(#{day}, '%Y%m%d');
+	</select>
+
+	<select id="listRecordByBorrowId" parameterType="int" resultType="BorrowRecord">
+		select * from borrow_record where borrow_id = #{borrowId};
+	</select>
+
+	<update id="updateRecordApprovalStatus" parameterType="int">
+		update borrow_record set approval_status = #{approvalStatus} where id = #{id};
+	</update>
+
+</mapper>
