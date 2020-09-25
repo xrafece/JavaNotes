@@ -1,10 +1,12 @@
 package com.xrafece.service.impl;
 
+import com.xrafece.entity.BorrowRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.sql.Date;
+import java.util.List;
 
 /**
  * @author Xrafece
@@ -18,5 +20,13 @@ class BorrowRecordServiceImplTest {
     @Test
     void updateRecordApprovalStatus() {
         borrowRecordService.updateRecordApprovalStatus(0, 3);
+    }
+
+    @Test
+    void listRecordByDay() {
+        List<BorrowRecord> borrowRecords = borrowRecordService.listRecordByDay(Date.valueOf("2020-09-24"));
+        for (BorrowRecord borrowRecord : borrowRecords) {
+            System.out.println(borrowRecord);
+        }
     }
 }

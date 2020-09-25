@@ -2,7 +2,8 @@ package com.xrafece.entity;
 
 import lombok.Data;
 
-import java.sql.Timestamp;
+import java.sql.Time;
+import java.sql.Date;
 
 /**
  * @author Xrafece
@@ -13,8 +14,9 @@ public class BorrowRecord {
     private String borrowInform;
     private Integer borrowId;
     private String classroom;
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private Date borrowDate;
+    private Time startTime;
+    private Time endTime;
     private String reason;
     private Integer approvalStatus;
 }

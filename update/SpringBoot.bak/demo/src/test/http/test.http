@@ -10,7 +10,7 @@ GET http://localhost:8080/hello
 
 ###
 
-POST http://localhost:8080/list
+POST http://localhost:8080/record/all
 
 ###
 
@@ -19,11 +19,6 @@ GET http://localhost:8080
 ###
 
 POST http://localhost:80/api/item
-Content-Type: application/json
 
-{
-  "name": "dsa"
-  "one": "done"
-}
 
 ###

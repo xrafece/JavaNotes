@@ -9,7 +9,7 @@
 	</select>
 
 	<select id="listRecordByDay" parameterType="date" resultType="BorrowRecord">
-		select * from borrow_record where date_format(start_time , '%Y%m%d') = date_format(#{day}, '%Y%m%d');
+		select * from borrow_record where date_format(borrow_date , '%Y%m%d') = date_format(#{day}, '%Y%m%d');
 	</select>
 
 	<select id="listRecordByBorrowId" parameterType="int" resultType="BorrowRecord">
