@@ -29,4 +29,11 @@ class BorrowRecordServiceImplTest {
             System.out.println(borrowRecord);
         }
     }
+    @Test
+    void listRecordByClassroom() {
+        List<BorrowRecord> borrowRecords = borrowRecordService.listRecordByDay(Date.valueOf("2020-09-24"));
+        for (BorrowRecord borrowRecord : borrowRecords) {
+            System.out.println(borrowRecord);
+        }
+    }
 }

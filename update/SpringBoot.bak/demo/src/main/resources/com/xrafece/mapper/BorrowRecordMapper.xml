@@ -8,16 +8,40 @@
 		select * from borrow_record;
 	</select>
 
-	<select id="listRecordByDay" parameterType="date" resultType="BorrowRecord">
+	<select id="listRecord" parameterType="Integer" resultType="BorrowRecord">
+		select * from borrow_record order by id limit #{startIndex}, #{pageSize};
+	</select>
+
+	<select id="listRecordByDay" parameterType="Date" resultType="BorrowRecord">
 		select * from borrow_record where date_format(borrow_date , '%Y%m%d') = date_format(#{day}, '%Y%m%d');
 	</select>
 
-	<select id="listRecordByBorrowId" parameterType="int" resultType="BorrowRecord">
+	<select id="listRecordByClassroom" resultType="BorrowRecord">
+		select * from borrow_record where classroom = #{classroom} and
+		date_format(borrow_date , '%Y%m%d') = date_format(#{day}, '%Y%m%d');
+	</select>
+
+	<select id="listRecordByBorrowId" parameterType="Integer" resultType="BorrowRecord">
 		select * from borrow_record where borrow_id = #{borrowId};
 	</select>
 
-	<update id="updateRecordApprovalStatus" parameterType="int">
+	<update id="updateRecordApprovalStatus" parameterType="Integer">
 		update borrow_record set approval_status = #{approvalStatus} where id = #{id};
 	</update>
+
+	<insert id="insertRecord" parameterType="BorrowRecord">
+		insert into borrow_record
+		(borrow_inform, borrow_id, classroom, borrow_date, start_time, end_time, reason, approval_status)
+		value
+		(#{borrowInform}, #{borrowId}, #{classroom}, #{borrowDate}, #{startTime}, #{endTime}, #{reason}, #{approvalStatus})
+	</insert>
+
+	<delete id="removeRecord" parameterType="BorrowRecord">
+		delete from borrow_record where id = #{id};
+	</delete>
+
+	<delete id="removeRecordById" parameterType="Integer">
+		delete from borrow_record where id = #{id};
+	</delete>
 
 </mapper>
