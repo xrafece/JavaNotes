@@ -134,3 +134,102 @@ x -> 2 * x
 
 #### JDK
 
+## 线程
+
+Java 实现线程的三种方式
+
+###  继承 `Thread` 类
+
+继承 `Thread` 类，重写 `run()` 方法执行线程任务，调用 `start()` 方法开启线程。
+
+```java
+package com.xrafece.thread;
+
+/**
+ * @author Xrafece
+ */
+public class NewThread extends Thread {
+
+    public NewThread() {
+    }
+
+    /**
+     * 通过线程名称创建新线程
+     *
+     * @param name 线程名称
+     */
+    public NewThread(String name) {
+        super(name);
+    }
+
+    /**
+     * 重写父类的 run 方法，
+     */
+    @Override
+    public void run() {
+        System.out.println(currentThread().getName() + "----> 正在执行次线程");
+    }
+}
+```
+
+```java
+package com.xrafece.thread;
+
+/**
+ * @author Xrafece
+ */
+public class ThreadMain {
+    public static void main(String[] args) {
+        NewThread newThread1 = new NewThread();
+        // 使用start方法开始新线程
+        newThread1.start();
+
+        NewThread newThread2 = new NewThread("新线程");
+        newThread2.start();
+    }
+}
+```
+
+### 实现 `Runnable` 接口
+
+实现 `Runnable` 接口，实现类重写 `run()` 方法执行线程任务，通过 `Thread` 类的 `public Thread(Runnable target)` 构造方法创建 `Thread` 类对象，并调用 `start()` 开启线程。
+
+```java
+package com.xrafece.runnable;
+
+/**
+ * @author Xrafece
+ */
+public class RunnableImpl implements Runnable {
+    /**
+     * 重写接口方法，执行线程任务
+     */
+    @Override
+    public void run() {
+        System.out.println("This is a thread implement Runnable interface, name ----> " + Thread.currentThread().getName());
+    }
+}
+```
+
+```java
+package com.xrafece.runnable;
+
+/**
+ * @author Xrafece
+ */
+public class ThreadMain {
+    public static void main(String[] args) {
+        Thread thread = new Thread(new RunnableImpl());
+        // 调用start方法启动线程
+        thread.start();
+        //匿名内部类+lambda表达式简写。
+        new Thread(() -> {
+            Thread.currentThread().setName("匿名内部类线程");
+            System.out.println("This is a new Thread" + Thread.currentThread().getName());
+        }).start();
+    }
+}
+```
+
+相比直接继承 `Thread` 类，实现 `Runnable` 接口的方式实现了轻度解耦，线程任务和启动线程实现分离。
+
