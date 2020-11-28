@@ -4,12 +4,14 @@ import com.xrafece.entity.Classroom;
 import com.xrafece.mapper.ClassroomMapper;
 import com.xrafece.service.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * @author Xrafece
  */
+@Service
 public class ClassroomServiceImpl implements ClassroomService {
     @Autowired
     private ClassroomMapper classroomMapper;

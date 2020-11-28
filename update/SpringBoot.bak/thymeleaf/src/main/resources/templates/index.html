@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../static/plugin/css/bootstrap.min.css" th:href="@{/plugin/css/bootstrap.min.css}">
+
+    <title>借教室系统2.0</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light fixed-top">
+        <a class="navbar-brand">
+            <img src="../static/logo.png" th:src="${headUrl}" width="30" height="30" alt="">
+        </a>
+    </nav>
+    <nav class="navbar navbar-light bg-light mb-3">
+        <a class="navbar-brand">
+            <img src="../static/logo.png" th:src="@{/logo.png}" width="30" height="30" alt="">
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <form th:action="@{}">
+                    <div class="form-group">
+                        <label for="inputPassword4">姓名</label>
+                        <input type="text" class="form-control" id="inputPassword4" placeholder="易小熊">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword5">班级</label>
+                        <input type="text" class="form-control" id="inputPassword5" placeholder="通信2001">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword4">QQ号</label>
+                        <input type="text" class="form-control" id="inputPassword6" placeholder="2366484467">
+                        <!-- <small class="form-text text-muted"></small> -->
+                    </div>
+                    <fieldset disabled>
+                        <div class="form-group">
+                            <label for="disabledTextInput">易班ID</label>
+                            <input type="text" id="disabledTextInput" class="form-control" th:placeholder="${userid}"
+                                placeholder="101234445">
+                        </div>
+                        <div class="form-group">
+                            <label for="disabledTextInput3">易班用户名</label>
+                            <input type="text" readonly id="disabledTextInput3" class="form-control"
+                                th:placeholder="${username}" placeholder="马保国">
+                        </div>
+                    </fieldset>
+                    <small class="form-text text-muted text-center">我们不会泄露您的隐私,方便您以后借用教室哦</small>
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-primary col btn-lg">绑定信息</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../static/plugin/js/jquery.slim.min.js" th:src="@{/plugin/js/jquery.slim.min.js}"></script>
+    <script src="../static/plugin/js/bootstrap.bundle.min.js" th:src="@{/plugin/js/jquery.slim.min.js}"></script>
+</body>
+
+</html>

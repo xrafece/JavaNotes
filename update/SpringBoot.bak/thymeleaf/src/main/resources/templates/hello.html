@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>hello</title>
 </head>
 <body>
-$END$
+
+<h1>hello</h1>
+<h2 th:if="${one} != null" th:text="${one}"></h2>
+<h2 th:text="${userid}"></h2>
+<h2 th:text="${token}"></h2>
+<h2 th:text="${username}"></h2>
+
+
 </body>
 </html>

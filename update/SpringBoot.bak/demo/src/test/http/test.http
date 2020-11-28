@@ -22,3 +22,21 @@ POST http://localhost:80/api/item
 
 
 ###
+GET http://localhost:8080/classroom/list
+Accept: application/json
+
+###
+GET http://localhost:8080/classroom
+Accept: application/json
+
+###
+POST http://localhost:8080/classroom
+Content-Type: application/json
+
+{
+  "id": 13,
+  "name": "one",
+  "status": 1
+}
+
+###

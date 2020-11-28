@@ -4,4 +4,14 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="">
 
+	<select id="oon">
+select Sname,Ssex from (select Sno from Score where ) where Sno = ;
+-- 		select fitness_time
+--         from (select wx_id
+--               from do_sport.member
+--               where id = #{id}) as e
+--                  join do_sport.fitness_record on e.wx_id = fitness_record.wx_id
+--         order by fitness_time desc
+	</select>
+
 </mapper>

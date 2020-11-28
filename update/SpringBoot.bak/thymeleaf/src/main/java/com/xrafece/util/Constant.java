@@ -1,4 +1,4 @@
-package com.xrafece.onestep.util;
+package com.xrafece.util;
 
 /**
  * @author Xrafece
@@ -36,4 +36,12 @@ public class Constant {
 	 * 易班数据请求样例
 	 */
 	public static final String YIBAN_REQUEST_URL_EXAPMLE = "https://mobile.yiban.cn/api/v2/passport/login?v=9.9.9&ct=99&account=123456&passwd=123456";
+	/**
+	 * 易班开放接口地址
+	 */
+	public static final String YIBAN_API_URL = "https://openapi.yiban.cn";
+	/**
+	 * 用户个人信息接口后缀
+	 */
+	public static final String YIBAN_USER_ME = "/user/me";
 }

@@ -18,7 +18,7 @@ import java.util.List;
  * @author Xrafece
  */
 @RestController
-@RequestMapping("#")
+// @RequestMapping("#")
 public class HelloController {
 
     @Autowired

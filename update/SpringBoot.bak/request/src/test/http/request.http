@@ -1,0 +1,19 @@
+POST http://localhost:8089/one
+Content-Type: application/json
+
+{
+  "one": {
+    "name": "one",
+    "id": 1
+  }
+}
+
+###
+POST http://localhost:8089/one
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+###
