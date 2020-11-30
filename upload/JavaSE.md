@@ -136,9 +136,13 @@ x -> 2 * x
 
 ## 线程
 
-Java 实现线程的三种方式
+### 创建线程的三种方式
 
-###  继承 `Thread` 类
+1. 继承 `Thread` 类
+2. 实现 `Runnable` 接口
+3. 实现 `Callable` 接口，并使用 `FutureTask` 对象
+
+####  继承 `Thread` 类
 
 继承 `Thread` 类，重写 `run()` 方法执行线程任务，调用 `start()` 方法开启线程。
 
@@ -190,7 +194,7 @@ public class ThreadMain {
 }
 ```
 
-### 实现 `Runnable` 接口
+#### 实现 `Runnable` 接口
 
 实现 `Runnable` 接口，实现类重写 `run()` 方法执行线程任务，通过 `Thread` 类的 `public Thread(Runnable target)` 构造方法创建 `Thread` 类对象，并调用 `start()` 开启线程。
 
@@ -232,4 +236,88 @@ public class ThreadMain {
 ```
 
 相比直接继承 `Thread` 类，实现 `Runnable` 接口的方式实现了轻度解耦，线程任务和启动线程实现分离。
+
+#### 实现 `Callable` 接口，并使用 `FutureTask` 对象
+
+1. 创建 `Callable` 接口的实现类，并实现 `call()` 方法，该 `call()` 方法将作为线程执行体，并且有返回值
+
+    ```java
+    public interface Callable {
+      V call() throws Exception;
+    }
+    ```
+
+2. 创建 `Callable` 实现类的实例，使用 `FutureTask` 类来包装 `Callable` 对象，该 `FutureTask` 对象封装了该 `Callable` 对象的 `call()` 方法的返回值。（ `FutureTask` 是一个包装器，它通过接受 `Callable` 来创建，它同时实现了 `Future` 和 `Runnable` 接口。）
+
+3. 使用 `FutureTask` 对象作为 `Thread` 对象的target创建并启动新线程
+
+4. 调用 `FutureTask` 对象的 `get()` 方法来获得子线程执行结束后的返回值
+
+```java
+package com.xrafece.callable;
+
+import java.util.concurrent.Callable;
+
+/**
+ * Callable<V> 接口实现类
+ *
+ * @author Xrafece
+ */
+public class RunnableThreadImpl implements Callable<Integer> {
+    /**
+     * 接口可以指定泛型，用以作为返回值类型，重写 call() 方法执行线程任务并返回值
+     *
+     * @return 线程任务需要的返回值
+     * @throws Exception
+     */
+    @Override
+    public Integer call() throws Exception {
+        System.out.println("This is callable Thread. Return an integer.");
+        return 10010;
+    }
+}
+```
+
+```java
+package com.xrafece.callable;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+
+/**
+ * @author Xrafece
+ */
+public class ThreadMain {
+    public static void main(String[] args) {
+        // 创建 Callable<V> 接口实现类对象
+        RunnableThreadImpl runnableThread = new RunnableThreadImpl();
+        // 创建 FutureTask<V> 实例对象（包装器）包装 Callable<V> 接口实现类对象
+        FutureTask<Integer> integerFutureTask = new FutureTask<>(runnableThread);
+        // 调用线程启动方法开始线程任务。
+        new Thread(integerFutureTask).start();
+        // 使用 FutureTask 实例对象对象的get()方法获取线程任务的返回值
+        try {
+            System.out.println(integerFutureTask.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        // lambda 表达式
+        FutureTask<Integer> futureTask = new FutureTask<Integer>(() -> 10);
+        new Thread(futureTask).start();
+        try {
+            System.out.println(futureTask.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        // 匿名使用 FutureTask<V> 实例对象无法获取线程返回值，只能执行线程任务，次做法类似 runnable
+        new Thread(new FutureTask<Integer>(() -> {
+            System.out.println("new Thread.");
+            return 0;
+        })).start();
+    }
+}
+```
+
+### 线程池
 
