@@ -138,9 +138,9 @@ x -> 2 * x
 
 ### 创建线程的三种方式
 
-1. 继承 `Thread` 类
-2. 实现 `Runnable` 接口
-3. 实现 `Callable` 接口，并使用 `FutureTask` 对象
+1. 继承 `Thread` 类，[调用 `Thread`对象 的` start()` 启动线程](#继承-thread-类)
+2. 实现 `Runnable` 接口，[调用 `Thread`对象 的` start()` 启动线程](实现-runnable-接口)
+3. 实现 `Callable` 接口，并使用 `FutureTask` 对象，[调用 `Thread`对象 的` start()` 启动线程](#实现-callable-接口并使用-futuretask-对象)
 
 ####  继承 `Thread` 类
 
@@ -318,6 +318,36 @@ public class ThreadMain {
     }
 }
 ```
+
+#### 创建线程的三种方式的对比
+
+
+* 使用实现Runnable、Callable接口的方式创建多线程时：
+
+  优点：
+
+  1. 线程类只是实现了Runnable接口或Callable接口，还可以继承其他类。
+  2. 在这种方式下，多个线程可以共享同一个target对象，所以非常适合多个相同线程来处理同一份资源的情况，从而可以将CPU、代码和数据分开，形成清晰的模型，较好地体现了面向对象的思想。
+
+  缺点：
+
+  1. 编程稍微复杂，如果要访问当前线程，则必须使用 `Thread.currentThread()` 方法。
+
+* 使用继承Thread类的方式创建多线程时：
+
+  优点：
+
+  1. 编写简单，如果需要访问当前线程，则无需使用Thread.currentThread()方法，直接使用this即可获得当前线程。
+
+  缺点：
+
+  1. 线程类已经继承了Thread类，所以不能再继承其他父类。
+
+* Runnable和Callable的区别：
+  1. Callable规定（重写）的方法是call()，Runnable规定（重写）的方法是run()。
+  2. Callable的任务执行后可返回值，而Runnable的任务是不能返回值的。
+  3. call方法可以抛出异常，run方法不可以。
+  4. 运行Callable任务可以拿到一个Future对象，表示异步计算的结果。它提供了检查计算是否完成的方法，以等待计算的完成，并检索计算的结果。通过Future对象可以了解任务执行情况，可取消任务的执行，还可获取执行结果。
 
 ### 线程池
 
