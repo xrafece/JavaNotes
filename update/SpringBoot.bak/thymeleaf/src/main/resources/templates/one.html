@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../static/plugin/css/bootstrap.min.css" th:href="@{/plugin/css/bootstrap.min.css}">
+
+    <title>借教室系统2.0</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light fixed-bottom">
+        <a class="navbar-brand">
+            <img src="../static/logo.png" th:src="${headUrl}" width="30" height="30" alt="">
+        </a>
+    </nav>
+    <nav class="navbar navbar-light bg-light mb-3">
+        <a class="navbar-brand">
+            <img src="../static/logo.png" th:src="@{/logo.png}" width="30" height="30" alt="">
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            Collapsible Group Item #1
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                    data-parent="#accordionExample">
+                    <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingTwo">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Collapsible Group Item #2
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                            data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Collapsible Group Item #3
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div class="card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+                        l
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive-sm">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">日期</th>
+                        <th scope="col">时间</th>
+                        <th scope="col">教室</th>
+                        <th scope="col">教室</th>
+                        <th scope="col">教室</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-success">
+                        <th scope="row">1</th>
+                        <td>2020-10-13</td>
+                        <td>14:00-15:00</td>
+                        <td>9#211</td>
+                        <td>9#211</td>
+                        <td>9#211</td>
+                    </tr>
+                    <tr class="table-danger">
+                        <th scope="row">2</th>
+                        <td>2020-12-01</td>
+                        <td>10:00-19:00</td>
+                        <td>9#211</td>
+                        <td>9#211</td>
+                        <td>9#211</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>2020-12-10</td>
+                        <td>10:00-12:00</td>
+                        <td>9#221</td>
+                        <td>9#211</td>
+                        <td>9#211</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../static/plugin/js/jquery.slim.min.js" th:src="@{/plugin/js/jquery.slim.min.js}"></script>
+    <script src="../static/plugin/js/bootstrap.bundle.min.js" th:src="@{/plugin/js/jquery.slim.min.js}"></script>
+</body>
+
+</html>

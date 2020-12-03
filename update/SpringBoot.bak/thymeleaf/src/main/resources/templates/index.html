@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-light bg-light fixed-top">
+    <!-- <nav class="navbar navbar-light bg-light fixed-bottom">
         <a class="navbar-brand">
             <img src="../static/logo.png" th:src="${headUrl}" width="30" height="30" alt="">
         </a>
@@ -22,7 +22,7 @@
         <a class="navbar-brand">
             <img src="../static/logo.png" th:src="@{/logo.png}" width="30" height="30" alt="">
         </a>
-    </nav>
+    </nav> -->
 
     <div class="container">
         <div class="card">
@@ -60,7 +60,17 @@
                 </form>
             </div>
         </div>
+        <nav class="navbar navbar-light bg-light fixed-bottom">
+            <a class="navbar-brand">
+                <img src="../static/logo.png" th:src="${headUrl}" width="30" height="30" alt="">
+            </a>
+        </nav>
     </div>
+    <nav class="navbar navbar-light bg-light mb-3">
+        <a class="navbar-brand">
+            <img src="../static/logo.png" th:src="@{/logo.png}" width="30" height="30" alt="">
+        </a>
+    </nav>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="../static/plugin/js/jquery.slim.min.js" th:src="@{/plugin/js/jquery.slim.min.js}"></script>
     <script src="../static/plugin/js/bootstrap.bundle.min.js" th:src="@{/plugin/js/jquery.slim.min.js}"></script>
