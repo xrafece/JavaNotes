@@ -49,5 +49,17 @@ httpServletResponse.sendRedirect(url);
 FrameUtil frameUtil = new FrameUtil(request, response, Constant.YIBAN_APP_ID, Constant.YIBAN_APP_SECRET, Constant.YIBAN_APP_REDIRECT_URI);
 // 伪代码，但必须执行以下方法，此方法判断是否授权并解析数据
 frameUtil.perform()
-
+// 获取解析后的接口数据
+String userId = frameUtil.getUserId();
+String username = frameUtil.getUserName();
+String accessToken = frameUtil.getAccessToken();
+// 获取用户本人数据
+// import cn.yiban.open.common.User;
+User user = new User(accessToken);
+// 数据格式为 json 需要进行解析
+JSONObject json = JSONObject.fromObject(user.me());
+JSONObject info = json.getJSONObject("info");
+System.out.println(info);
+System.out.println(info.getString("yb_username"));
+System.out.println(info.getString("yb_userhead"));
 ```
